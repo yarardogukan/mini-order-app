@@ -1,0 +1,11 @@
+/Users/dogukanyarar/Desktop/mini-order-app/backend/MiniOrder.Domain/bin/Debug/net8.0/MiniOrder.Domain.deps.json
+/Users/dogukanyarar/Desktop/mini-order-app/backend/MiniOrder.Domain/bin/Debug/net8.0/MiniOrder.Domain.dll
+/Users/dogukanyarar/Desktop/mini-order-app/backend/MiniOrder.Domain/bin/Debug/net8.0/MiniOrder.Domain.pdb
+/Users/dogukanyarar/Desktop/mini-order-app/backend/MiniOrder.Domain/obj/Debug/net8.0/MiniOrder.Domain.GeneratedMSBuildEditorConfig.editorconfig
+/Users/dogukanyarar/Desktop/mini-order-app/backend/MiniOrder.Domain/obj/Debug/net8.0/MiniOrder.Domain.AssemblyInfoInputs.cache
+/Users/dogukanyarar/Desktop/mini-order-app/backend/MiniOrder.Domain/obj/Debug/net8.0/MiniOrder.Domain.AssemblyInfo.cs
+/Users/dogukanyarar/Desktop/mini-order-app/backend/MiniOrder.Domain/obj/Debug/net8.0/MiniOrder.Domain.csproj.CoreCompileInputs.cache
+/Users/dogukanyarar/Desktop/mini-order-app/backend/MiniOrder.Domain/obj/Debug/net8.0/MiniOrder.Domain.dll
+/Users/dogukanyarar/Desktop/mini-order-app/backend/MiniOrder.Domain/obj/Debug/net8.0/refint/MiniOrder.Domain.dll
+/Users/dogukanyarar/Desktop/mini-order-app/backend/MiniOrder.Domain/obj/Debug/net8.0/MiniOrder.Domain.pdb
+/Users/dogukanyarar/Desktop/mini-order-app/backend/MiniOrder.Domain/obj/Debug/net8.0/ref/MiniOrder.Domain.dll
