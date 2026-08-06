@@ -1,10 +1,13 @@
 using Microsoft.EntityFrameworkCore;
 using MiniOrder.Infrastructure.Persistence;
 using MiniOrder.Infrastructure.Persistence.Seed;
+using MiniOrder.Application.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
+
+builder.Services.AddApplication();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

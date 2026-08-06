@@ -1,9 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "hHTU1L5g+ws=",
+  "dgSpecHash": "0fAO+u5Vd/s=",
   "success": true,
   "projectFilePath": "/Users/dogukanyarar/Desktop/mini-order-app/backend/MiniOrder.Infrastructure/MiniOrder.Infrastructure.csproj",
   "expectedPackageFiles": [
+    "/Users/dogukanyarar/.nuget/packages/fluentvalidation/12.1.1/fluentvalidation.12.1.1.nupkg.sha512",
+    "/Users/dogukanyarar/.nuget/packages/fluentvalidation.dependencyinjectionextensions/12.1.1/fluentvalidation.dependencyinjectionextensions.12.1.1.nupkg.sha512",
     "/Users/dogukanyarar/.nuget/packages/humanizer.core/2.14.1/humanizer.core.2.14.1.nupkg.sha512",
     "/Users/dogukanyarar/.nuget/packages/microsoft.bcl.asyncinterfaces/6.0.0/microsoft.bcl.asyncinterfaces.6.0.0.nupkg.sha512",
     "/Users/dogukanyarar/.nuget/packages/microsoft.codeanalysis.analyzers/3.3.3/microsoft.codeanalysis.analyzers.3.3.3.nupkg.sha512",

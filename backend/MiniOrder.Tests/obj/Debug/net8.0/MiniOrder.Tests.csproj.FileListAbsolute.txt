@@ -151,3 +151,5 @@
 /Users/dogukanyarar/Desktop/mini-order-app/backend/MiniOrder.Tests/obj/Debug/net8.0/MiniOrder.Tests.pdb
 /Users/dogukanyarar/Desktop/mini-order-app/backend/MiniOrder.Tests/obj/Debug/net8.0/MiniOrder.Tests.genruntimeconfig.cache
 /Users/dogukanyarar/Desktop/mini-order-app/backend/MiniOrder.Tests/obj/Debug/net8.0/ref/MiniOrder.Tests.dll
+/Users/dogukanyarar/Desktop/mini-order-app/backend/MiniOrder.Tests/bin/Debug/net8.0/FluentValidation.dll
+/Users/dogukanyarar/Desktop/mini-order-app/backend/MiniOrder.Tests/bin/Debug/net8.0/FluentValidation.DependencyInjectionExtensions.dll
