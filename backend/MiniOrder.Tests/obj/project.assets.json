@@ -1,5 +1,5 @@
 {
-  "version": 4,
+  "version": 3,
   "targets": {
     "net8.0": {
       "coverlet.collector/6.0.0": {
@@ -7136,19 +7136,19 @@
     ]
   },
   "packageFolders": {
-    "/Users/dogukanyarar/.nuget/packages/": {}
+    "C:\\Users\\doguk\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/dogukanyarar/Desktop/mini-order-app/backend/MiniOrder.Tests/MiniOrder.Tests.csproj",
+      "projectUniqueName": "C:\\Users\\doguk\\OneDrive\\Masaüstü\\mini-order-app\\backend\\MiniOrder.Tests\\MiniOrder.Tests.csproj",
       "projectName": "MiniOrder.Tests",
-      "projectPath": "/Users/dogukanyarar/Desktop/mini-order-app/backend/MiniOrder.Tests/MiniOrder.Tests.csproj",
-      "packagesPath": "/Users/dogukanyarar/.nuget/packages/",
-      "outputPath": "/Users/dogukanyarar/Desktop/mini-order-app/backend/MiniOrder.Tests/obj/",
+      "projectPath": "C:\\Users\\doguk\\OneDrive\\Masaüstü\\mini-order-app\\backend\\MiniOrder.Tests\\MiniOrder.Tests.csproj",
+      "packagesPath": "C:\\Users\\doguk\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\doguk\\OneDrive\\Masaüstü\\mini-order-app\\backend\\MiniOrder.Tests\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/Users/dogukanyarar/.nuget/NuGet/NuGet.Config"
+        "C:\\Users\\doguk\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
@@ -7158,11 +7158,10 @@
       },
       "frameworks": {
         "net8.0": {
-          "framework": "net8.0",
           "targetAlias": "net8.0",
           "projectReferences": {
-            "/Users/dogukanyarar/Desktop/mini-order-app/backend/MiniOrder.Api/MiniOrder.Api.csproj": {
-              "projectPath": "/Users/dogukanyarar/Desktop/mini-order-app/backend/MiniOrder.Api/MiniOrder.Api.csproj"
+            "C:\\Users\\doguk\\OneDrive\\Masaüstü\\mini-order-app\\backend\\MiniOrder.Api\\MiniOrder.Api.csproj": {
+              "projectPath": "C:\\Users\\doguk\\OneDrive\\Masaüstü\\mini-order-app\\backend\\MiniOrder.Api\\MiniOrder.Api.csproj"
             }
           }
         }
@@ -7176,12 +7175,10 @@
         "enableAudit": "true",
         "auditLevel": "low",
         "auditMode": "direct"
-      },
-      "SdkAnalysisLevel": "10.0.300"
+      }
     },
     "frameworks": {
       "net8.0": {
-        "framework": "net8.0",
         "targetAlias": "net8.0",
         "dependencies": {
           "Microsoft.NET.Test.Sdk": {
@@ -7217,7 +7214,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/10.0.302/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.423/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

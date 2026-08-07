@@ -1,12 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "8BuhVwxb1sM=",
+  "dgSpecHash": "+zfMbeM1LgI=",
   "success": true,
-  "projectFilePath": "/Users/dogukanyarar/Desktop/mini-order-app/backend/MiniOrder.Application/MiniOrder.Application.csproj",
+  "projectFilePath": "C:\\Users\\doguk\\OneDrive\\Masaüstü\\mini-order-app\\backend\\MiniOrder.Application\\MiniOrder.Application.csproj",
   "expectedPackageFiles": [
-    "/Users/dogukanyarar/.nuget/packages/fluentvalidation/12.1.1/fluentvalidation.12.1.1.nupkg.sha512",
-    "/Users/dogukanyarar/.nuget/packages/fluentvalidation.dependencyinjectionextensions/12.1.1/fluentvalidation.dependencyinjectionextensions.12.1.1.nupkg.sha512",
-    "/Users/dogukanyarar/.nuget/packages/microsoft.extensions.dependencyinjection.abstractions/2.1.0/microsoft.extensions.dependencyinjection.abstractions.2.1.0.nupkg.sha512"
+    "C:\\Users\\doguk\\.nuget\\packages\\fluentvalidation\\12.1.1\\fluentvalidation.12.1.1.nupkg.sha512",
+    "C:\\Users\\doguk\\.nuget\\packages\\fluentvalidation.dependencyinjectionextensions\\12.1.1\\fluentvalidation.dependencyinjectionextensions.12.1.1.nupkg.sha512",
+    "C:\\Users\\doguk\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\2.1.0\\microsoft.extensions.dependencyinjection.abstractions.2.1.0.nupkg.sha512"
   ],
   "logs": []
 }

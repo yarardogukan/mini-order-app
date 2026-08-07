@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MiniOrder.Tests")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2bba64d2cbf9d08d6323f47bb5cf0fab56bb1c20")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7f32dbbfff5b6385ae4fb9220a57a9bd2ba1c0cc")]
 [assembly: System.Reflection.AssemblyProductAttribute("MiniOrder.Tests")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MiniOrder.Tests")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

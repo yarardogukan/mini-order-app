@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using MiniOrder.Infrastructure.Persistence;
 using MiniOrder.Infrastructure.Persistence.Seed;
 using MiniOrder.Application.DependencyInjection;
+using MiniOrder.Infrastructure.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,12 +10,10 @@ builder.Services.AddControllers();
 
 builder.Services.AddApplication();
 
+builder.Services.AddInfrastructure(builder.Configuration);
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
-builder.Services.AddDbContext<MiniOrderDbContext>(options =>
-    options.UseSqlite(
-        builder.Configuration.GetConnectionString("DefaultConnection")));
 
 var app = builder.Build();
 

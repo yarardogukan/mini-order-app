@@ -9,3 +9,14 @@
 /Users/dogukanyarar/Desktop/mini-order-app/backend/MiniOrder.Domain/obj/Debug/net8.0/refint/MiniOrder.Domain.dll
 /Users/dogukanyarar/Desktop/mini-order-app/backend/MiniOrder.Domain/obj/Debug/net8.0/MiniOrder.Domain.pdb
 /Users/dogukanyarar/Desktop/mini-order-app/backend/MiniOrder.Domain/obj/Debug/net8.0/ref/MiniOrder.Domain.dll
+C:\Users\doguk\OneDrive\Masaüstü\mini-order-app\backend\MiniOrder.Domain\bin\Debug\net8.0\MiniOrder.Domain.deps.json
+C:\Users\doguk\OneDrive\Masaüstü\mini-order-app\backend\MiniOrder.Domain\bin\Debug\net8.0\MiniOrder.Domain.dll
+C:\Users\doguk\OneDrive\Masaüstü\mini-order-app\backend\MiniOrder.Domain\bin\Debug\net8.0\MiniOrder.Domain.pdb
+C:\Users\doguk\OneDrive\Masaüstü\mini-order-app\backend\MiniOrder.Domain\obj\Debug\net8.0\MiniOrder.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\doguk\OneDrive\Masaüstü\mini-order-app\backend\MiniOrder.Domain\obj\Debug\net8.0\MiniOrder.Domain.AssemblyInfoInputs.cache
+C:\Users\doguk\OneDrive\Masaüstü\mini-order-app\backend\MiniOrder.Domain\obj\Debug\net8.0\MiniOrder.Domain.AssemblyInfo.cs
+C:\Users\doguk\OneDrive\Masaüstü\mini-order-app\backend\MiniOrder.Domain\obj\Debug\net8.0\MiniOrder.Domain.csproj.CoreCompileInputs.cache
+C:\Users\doguk\OneDrive\Masaüstü\mini-order-app\backend\MiniOrder.Domain\obj\Debug\net8.0\MiniOrder.Domain.dll
+C:\Users\doguk\OneDrive\Masaüstü\mini-order-app\backend\MiniOrder.Domain\obj\Debug\net8.0\refint\MiniOrder.Domain.dll
+C:\Users\doguk\OneDrive\Masaüstü\mini-order-app\backend\MiniOrder.Domain\obj\Debug\net8.0\MiniOrder.Domain.pdb
+C:\Users\doguk\OneDrive\Masaüstü\mini-order-app\backend\MiniOrder.Domain\obj\Debug\net8.0\ref\MiniOrder.Domain.dll
