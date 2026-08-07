@@ -17,8 +17,9 @@ public static class InfrastructureServiceRegistration
             options.UseSqlite(
                 configuration.GetConnectionString("DefaultConnection")));
 
-        services.AddScoped<IProductService, ProductService>();
+        services.AddMemoryCache();
 
+        services.AddScoped<IProductService, ProductService>();
         services.AddScoped<IOrderService, OrderService>();
 
         return services;

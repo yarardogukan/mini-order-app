@@ -79,4 +79,26 @@ public sealed class CreateOrderRequestValidatorTests
             error => error.ErrorMessage ==
                 "Quantity must be greater than zero.");
     }
+
+    [Fact]
+    public async Task ValidateAsync_WhenCustomerNameIsEmpty_ShouldReturnValidationError()
+    {
+        // Arrange
+        var request = new CreateOrderRequest(
+            string.Empty,
+            [
+                new CreateOrderItemRequest(1, 1)
+            ]);
+
+        // Act
+        var result = await _validator.ValidateAsync(request);
+
+        // Assert
+        Assert.False(result.IsValid);
+
+        Assert.Contains(
+            result.Errors,
+            error => error.ErrorMessage ==
+                "Customer name is required.");
+    }
 }

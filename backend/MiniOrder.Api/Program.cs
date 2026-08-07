@@ -3,6 +3,7 @@ using MiniOrder.Infrastructure.Persistence;
 using MiniOrder.Infrastructure.Persistence.Seed;
 using MiniOrder.Application.DependencyInjection;
 using MiniOrder.Infrastructure.DependencyInjection;
+using MiniOrder.Api.ExceptionHandling;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +15,10 @@ builder.Services.AddInfrastructure(builder.Configuration);
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddProblemDetails();
+
+builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 
 var app = builder.Build();
 
@@ -31,6 +36,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseExceptionHandler();
 
 app.MapControllers();
 

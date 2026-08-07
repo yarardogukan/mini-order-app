@@ -7,6 +7,7 @@ using MiniOrder.Application.Validators.Orders;
 using MiniOrder.Infrastructure.Persistence;
 using MiniOrder.Infrastructure.Services;
 using MiniOrder.Domain.Entities;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace MiniOrder.Tests.Services;
 
@@ -157,7 +158,7 @@ public sealed class OrderServiceTests
     }
 
     private static OrderService CreateOrderService(
-        MiniOrderDbContext dbContext)
+    MiniOrderDbContext dbContext)
     {
         IValidator<CreateOrderItemRequest> itemValidator =
             new CreateOrderItemRequestValidator();
@@ -165,10 +166,14 @@ public sealed class OrderServiceTests
         IValidator<CreateOrderRequest> orderValidator =
             new CreateOrderRequestValidator(itemValidator);
 
+        var cache = new MemoryCache(
+            new MemoryCacheOptions());
+
         return new OrderService(
             dbContext,
             NullLogger<OrderService>.Instance,
-            orderValidator);
+            orderValidator,
+            cache);
     }
 
     #endregion

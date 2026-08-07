@@ -10,6 +10,7 @@ using MiniOrder.Infrastructure.Persistence;
 using FluentValidation;
 using MiniOrder.Infrastructure.Mapping;
 using MiniOrder.Domain.Entities;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace MiniOrder.Infrastructure.Services;
 
@@ -17,17 +18,19 @@ public sealed class OrderService : IOrderService
 {
     private readonly MiniOrderDbContext _dbContext;
     private readonly ILogger<OrderService> _logger;
-
+    private readonly IMemoryCache _cache;
     private readonly IValidator<CreateOrderRequest> _createOrderValidator;
 
     public OrderService(
-        MiniOrderDbContext dbContext,
-        ILogger<OrderService> logger,
-        IValidator<CreateOrderRequest> createOrderValidator)
+    MiniOrderDbContext dbContext,
+    ILogger<OrderService> logger,
+    IValidator<CreateOrderRequest> createOrderValidator,
+    IMemoryCache cache)
     {
         _dbContext = dbContext;
         _logger = logger;
         _createOrderValidator = createOrderValidator;
+        _cache = cache;
     }
 
     #region Commands
@@ -109,10 +112,21 @@ public sealed class OrderService : IOrderService
                 cancellationToken);
 
             await _dbContext.SaveChangesAsync(
-                cancellationToken);
+      cancellationToken);
 
             await transaction.CommitAsync(
                 cancellationToken);
+
+            foreach (var productId in productIds)
+            {
+                _cache.Remove($"product:{productId}");
+            }
+
+            _logger.LogInformation(
+                "Order created successfully. OrderId: {OrderId}, CustomerName: {CustomerName}, TotalAmount: {TotalAmount}",
+                order.Id,
+                order.CustomerName,
+                order.TotalAmount);
 
             _logger.LogInformation(
                 "Order created successfully. OrderId: {OrderId}, CustomerName: {CustomerName}, TotalAmount: {TotalAmount}",
