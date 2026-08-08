@@ -221,3 +221,152 @@ a {
     max-width: none;
   }
 }
+
+.order-form {
+  display: grid;
+  gap: 24px;
+}
+
+.form-group {
+  display: grid;
+  gap: 8px;
+}
+
+.form-group label {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.form-input {
+  width: 100%;
+  max-width: 520px;
+  padding: 13px 16px;
+  border: 1px solid #d9d9d9;
+  border-radius: 12px;
+  background: #fff;
+  outline: none;
+}
+
+.order-product-list {
+  display: grid;
+  gap: 12px;
+}
+
+.order-product-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 20px;
+  border: 1px solid #e3e3e3;
+  border-radius: 14px;
+  background: #fff;
+}
+
+.order-product-row h3 {
+  margin: 6px 0;
+}
+
+.order-product-meta {
+  margin: 0;
+  color: #777;
+  font-size: 14px;
+}
+
+.quantity-control {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.quantity-control button {
+  width: 36px;
+  height: 36px;
+  border: 1px solid #d9d9d9;
+  border-radius: 10px;
+  background: #fff;
+  cursor: pointer;
+}
+
+.quantity-control button:disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+.quantity-control input {
+  width: 64px;
+  height: 36px;
+  border: 1px solid #d9d9d9;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.order-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px;
+  border-radius: 14px;
+  background: #171717;
+  color: #fff;
+}
+
+.order-summary strong {
+  font-size: 24px;
+}
+
+@media (max-width: 640px) {
+  .order-product-row {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .quantity-control {
+    justify-content: flex-start;
+  }
+}
+
+.primary-button {
+  width: 100%;
+  padding: 14px 18px;
+  border: none;
+  border-radius: 12px;
+  background: #171717;
+  color: #fff;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+}
+
+.primary-button:hover:not(:disabled) {
+  opacity: 0.9;
+}
+
+.primary-button:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+.primary-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.alert {
+  margin-bottom: 24px;
+  padding: 14px 16px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.alert-success {
+  border: 1px solid #bfe3c7;
+  background: #edf9f0;
+  color: #24713a;
+}
+
+.alert-error {
+  border: 1px solid #efcaca;
+  background: #fff4f4;
+  color: #9b2929;
+}
