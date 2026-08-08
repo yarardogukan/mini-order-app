@@ -577,7 +577,7 @@ Teslim edilen kodun tamamını anlayabilecek ve teknik kararlarını açıklayab
 
 ## 11. Çalışmaya yaklaşık ne kadar zaman ayırdınız?
 
-Aktif geliştirme süresi yaklaşık **X saat** olmuştur.
+Aktif geliştirme süresi yaklaşık **20 saat** olmuştur.
 
 Çalışma case için verilen 48 saatlik teslim süresi göz önünde bulundurularak planlanmıştır.
 
