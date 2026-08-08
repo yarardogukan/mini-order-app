@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { API_BASE_URL } from "../../api/api";
 import type { Product } from "../../types/product";
 import type { CreateOrderRequest } from "../../types/order";
+import { createOrder } from "../../api/orderApi";
 
 function CreateOrderPage() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -82,27 +83,18 @@ function CreateOrderPage() {
     try {
       setSubmitting(true);
 
-      const response = await fetch(`${API_BASE_URL}/orders`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(request),
-      });
+      const order = await createOrder(request);
 
-      const data = await response.json();
-
-      if (!response.ok) {
-        setSubmitError(data.message ?? "Order could not be created.");
-        return;
-      }
-
-      setSuccessMessage(`Order #${data.id} created successfully.`);
+      setSuccessMessage(`Order #${order.id} created successfully.`);
 
       setCustomerName("");
       setQuantities({});
-    } catch {
-      setSubmitError("Order could not be created. Please try again.");
+    } catch (error) {
+      setSubmitError(
+        error instanceof Error
+          ? error.message
+          : "Order could not be created. Please try again."
+      );
     } finally {
       setSubmitting(false);
     }
