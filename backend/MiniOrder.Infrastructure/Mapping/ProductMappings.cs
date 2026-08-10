@@ -16,7 +16,13 @@ public static class ProductMappings
             product.Price,
             product.StockQuantity,
             product.CategoryId,
-            product.Category.Name
+            product.Category.Name,
+            product.Brand.Name,
+            product
+                .Images.Where(image => image.IsCover)
+                .OrderBy(image => image.SortOrder)
+                .Select(image => image.ImageUrl)
+                .FirstOrDefault()
         );
     }
 }

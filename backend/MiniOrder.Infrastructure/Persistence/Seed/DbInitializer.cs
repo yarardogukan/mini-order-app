@@ -17,6 +17,7 @@ public static class DbInitializer
         await SeedProductsAsync(dbContext, cancellationToken);
         await SeedCategoryAttributesAsync(dbContext, cancellationToken);
         await SeedProductAttributeValuesAsync(dbContext, cancellationToken);
+        await SeedProductImagesAsync(dbContext, cancellationToken);
     }
 
     private static async Task SeedCategoriesAsync(
@@ -685,6 +686,93 @@ public static class DbInitializer
             if (!exists)
             {
                 await dbContext.ProductAttributeValues.AddAsync(value, cancellationToken);
+            }
+        }
+
+        await dbContext.SaveChangesAsync(cancellationToken);
+    }
+
+    private static async Task SeedProductImagesAsync(
+        MiniOrderDbContext dbContext,
+        CancellationToken cancellationToken
+    )
+    {
+        var products = await dbContext.Products.ToDictionaryAsync(
+            product => product.StockCode,
+            cancellationToken
+        );
+
+        var laptop = products["ELC-LPT-001"];
+        var mouse = products["ACC-MSE-002"];
+        var keyboard = products["ACC-KEY-003"];
+        var monitor = products["ELC-MON-004"];
+        var headset = products["ACC-HDS-005"];
+
+        var images = new List<ProductImage>
+        {
+            new()
+            {
+                ProductId = laptop.Id,
+                ImageUrl = "https://placehold.co/900x700?text=Laptop+Front",
+                IsCover = true,
+                SortOrder = 1,
+            },
+            new()
+            {
+                ProductId = laptop.Id,
+                ImageUrl = "https://placehold.co/900x700?text=Laptop+Side",
+                IsCover = false,
+                SortOrder = 2,
+            },
+            new()
+            {
+                ProductId = laptop.Id,
+                ImageUrl = "https://placehold.co/900x700?text=Laptop+Back",
+                IsCover = false,
+                SortOrder = 3,
+            },
+            new()
+            {
+                ProductId = mouse.Id,
+                ImageUrl = "https://placehold.co/900x700?text=Wireless+Mouse",
+                IsCover = true,
+                SortOrder = 1,
+            },
+            new()
+            {
+                ProductId = keyboard.Id,
+                ImageUrl = "https://placehold.co/900x700?text=Mechanical+Keyboard",
+                IsCover = true,
+                SortOrder = 1,
+            },
+            new()
+            {
+                ProductId = monitor.Id,
+                ImageUrl = "https://placehold.co/900x700?text=27-inch+Monitor",
+                IsCover = true,
+                SortOrder = 1,
+            },
+            new()
+            {
+                ProductId = headset.Id,
+                ImageUrl = "https://placehold.co/900x700?text=USB+Headset",
+                IsCover = true,
+                SortOrder = 1,
+            },
+        };
+
+        foreach (var image in images)
+        {
+            var exists = await dbContext.ProductImages.AnyAsync(
+                existingImage =>
+                    existingImage.ProductId == image.ProductId
+                    && existingImage.SortOrder == image.SortOrder,
+                cancellationToken
+            );
+
+            if (!exists)
+            {
+                await dbContext.ProductImages.AddAsync(image, cancellationToken);
             }
         }
 

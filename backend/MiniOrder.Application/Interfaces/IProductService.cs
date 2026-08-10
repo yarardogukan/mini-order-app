@@ -11,7 +11,7 @@ public interface IProductService
         CancellationToken cancellationToken = default
     );
 
-    Task<Result<ProductResponse>> GetByIdAsync(
+    Task<Result<ProductDetailResponse>> GetByIdAsync(
         int id,
         CancellationToken cancellationToken = default
     );

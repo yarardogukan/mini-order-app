@@ -1,6 +1,6 @@
 namespace MiniOrder.Application.DTOs.Products.Responses;
 
-public sealed record ProductResponse(
+public sealed record ProductDetailResponse(
     int Id,
     string StockCode,
     string Name,
@@ -9,6 +9,9 @@ public sealed record ProductResponse(
     int StockQuantity,
     int CategoryId,
     string CategoryName,
+    string? ParentCategoryName,
+    int BrandId,
     string BrandName,
-    string? CoverImageUrl
+    IReadOnlyCollection<ProductImageResponse> Images,
+    IReadOnlyCollection<ProductAttributeResponse> Attributes
 );

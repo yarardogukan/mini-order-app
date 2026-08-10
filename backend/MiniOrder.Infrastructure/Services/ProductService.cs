@@ -70,41 +70,81 @@ public sealed class ProductService : IProductService
         return Result<IReadOnlyCollection<ProductResponse>>.Success(products);
     }
 
-    public async Task<Result<ProductResponse>> GetByIdAsync(
+    public async Task<Result<ProductDetailResponse>> GetByIdAsync(
         int id,
         CancellationToken cancellationToken = default
     )
     {
-        var cacheKey = $"product:{id}";
+        var cacheKey = $"product-detail:{id}";
 
-        if (_cache.TryGetValue(cacheKey, out ProductResponse? cachedProduct))
+        if (_cache.TryGetValue(cacheKey, out ProductDetailResponse? cachedProduct))
         {
-            _logger.LogInformation("Product retrieved from cache. ProductId: {ProductId}", id);
+            _logger.LogInformation(
+                "Product detail retrieved from cache. ProductId: {ProductId}",
+                id
+            );
 
-            return Result<ProductResponse>.Success(cachedProduct!);
+            return Result<ProductDetailResponse>.Success(cachedProduct!);
         }
 
         var product = await _dbContext
             .Products.AsNoTracking()
-            .Where(product => product.Id == id && product.IsActive && product.Category.IsActive)
-            .Select(ProductMappings.ToResponse())
+            .Where(product =>
+                product.Id == id
+                && product.IsActive
+                && product.Category.IsActive
+                && product.Brand.IsActive
+            )
+            .Select(product => new ProductDetailResponse(
+                product.Id,
+                product.StockCode,
+                product.Name,
+                product.Description,
+                product.Price,
+                product.StockQuantity,
+                product.CategoryId,
+                product.Category.Name,
+                product.Category.ParentCategory != null
+                    ? product.Category.ParentCategory.Name
+                    : null,
+                product.BrandId,
+                product.Brand.Name,
+                product
+                    .Images.OrderBy(image => image.SortOrder)
+                    .Select(image => new ProductImageResponse(
+                        image.ImageUrl,
+                        image.IsCover,
+                        image.SortOrder
+                    ))
+                    .ToList(),
+                product
+                    .AttributeValues.OrderBy(value => value.CategoryAttribute.SortOrder)
+                    .Select(value => new ProductAttributeResponse(
+                        value.CategoryAttribute.Name,
+                        value.CategoryAttribute.Code,
+                        value.CategoryAttribute.DataType,
+                        value.Value,
+                        value.CategoryAttribute.SortOrder
+                    ))
+                    .ToList()
+            ))
             .FirstOrDefaultAsync(cancellationToken);
 
         if (product is null)
         {
-            _logger.LogWarning("Product not found. ProductId: {ProductId}", id);
+            _logger.LogWarning("Product detail not found. ProductId: {ProductId}", id);
 
-            return Result<ProductResponse>.Failure(ProductErrors.NotFound(id));
+            return Result<ProductDetailResponse>.Failure(ProductErrors.NotFound(id));
         }
 
         _cache.Set(cacheKey, product, TimeSpan.FromMinutes(5));
 
         _logger.LogInformation(
-            "Product retrieved from database and cached. ProductId: {ProductId}",
+            "Product detail retrieved from database and cached. ProductId: {ProductId}",
             id
         );
 
-        return Result<ProductResponse>.Success(product);
+        return Result<ProductDetailResponse>.Success(product);
     }
 
     #endregion
