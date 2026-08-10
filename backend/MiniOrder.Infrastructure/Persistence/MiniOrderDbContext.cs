@@ -6,9 +6,7 @@ namespace MiniOrder.Infrastructure.Persistence;
 public class MiniOrderDbContext : DbContext
 {
     public MiniOrderDbContext(DbContextOptions<MiniOrderDbContext> options)
-        : base(options)
-    {
-    }
+        : base(options) { }
 
     public DbSet<Product> Products => Set<Product>();
 
@@ -16,10 +14,11 @@ public class MiniOrderDbContext : DbContext
 
     public DbSet<OrderItem> OrderItems => Set<OrderItem>();
 
+    public DbSet<Category> Categories => Set<Category>();
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.ApplyConfigurationsFromAssembly(
-            typeof(MiniOrderDbContext).Assembly);
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(MiniOrderDbContext).Assembly);
 
         base.OnModelCreating(modelBuilder);
     }

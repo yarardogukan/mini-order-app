@@ -23,12 +23,24 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
             .IsRequired()
             .HasMaxLength(150);
 
+        builder.Property(product => product.Description)
+            .IsRequired()
+            .HasMaxLength(1000);
+
         builder.Property(product => product.Price)
             .HasPrecision(18, 2)
             .IsRequired();
 
         builder.Property(product => product.StockQuantity)
             .IsRequired();
+
+        builder.Property(product => product.IsActive)
+            .IsRequired();
+
+        builder.HasOne(product => product.Category)
+            .WithMany(category => category.Products)
+            .HasForeignKey(product => product.CategoryId)
+            .OnDelete(DeleteBehavior.Restrict);
 
         builder.ToTable(table =>
         {

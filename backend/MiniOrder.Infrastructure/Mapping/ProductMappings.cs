@@ -4,7 +4,7 @@ using MiniOrder.Domain.Entities;
 
 namespace MiniOrder.Infrastructure.Mapping;
 
-internal static class ProductMappings
+public static class ProductMappings
 {
     public static Expression<Func<Product, ProductResponse>> ToResponse()
     {
@@ -12,7 +12,11 @@ internal static class ProductMappings
             product.Id,
             product.StockCode,
             product.Name,
+            product.Description,
             product.Price,
-            product.StockQuantity);
+            product.StockQuantity,
+            product.CategoryId,
+            product.Category.Name
+        );
     }
 }

@@ -9,8 +9,7 @@ public sealed class ProductController : ControllerBase
 {
     private readonly IProductService _productService;
 
-    public ProductController(
-        IProductService productService)
+    public ProductController(IProductService productService)
     {
         _productService = productService;
     }
@@ -18,11 +17,11 @@ public sealed class ProductController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetAll(
         [FromQuery] string? search,
-        CancellationToken cancellationToken)
+        [FromQuery] int? categoryId,
+        CancellationToken cancellationToken
+    )
     {
-        var result = await _productService.GetAllAsync(
-            search,
-            cancellationToken);
+        var result = await _productService.GetAllAsync(search, categoryId, cancellationToken);
 
         if (result.IsFailure)
         {
@@ -33,13 +32,9 @@ public sealed class ProductController : ControllerBase
     }
 
     [HttpGet("{id:int}")]
-    public async Task<IActionResult> GetById(
-        int id,
-        CancellationToken cancellationToken)
+    public async Task<IActionResult> GetById(int id, CancellationToken cancellationToken)
     {
-        var result = await _productService.GetByIdAsync(
-            id,
-            cancellationToken);
+        var result = await _productService.GetByIdAsync(id, cancellationToken);
 
         if (result.IsFailure)
         {

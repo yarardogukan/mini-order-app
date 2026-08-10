@@ -7,9 +7,12 @@ public interface IProductService
 {
     Task<Result<IReadOnlyCollection<ProductResponse>>> GetAllAsync(
         string? search,
-        CancellationToken cancellationToken = default);
+        int? categoryId,
+        CancellationToken cancellationToken = default
+    );
 
     Task<Result<ProductResponse>> GetByIdAsync(
         int id,
-        CancellationToken cancellationToken = default);
+        CancellationToken cancellationToken = default
+    );
 }
