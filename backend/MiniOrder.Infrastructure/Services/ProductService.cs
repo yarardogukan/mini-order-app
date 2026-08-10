@@ -37,7 +37,7 @@ public sealed class ProductService : IProductService
     {
         var query = _dbContext
             .Products.AsNoTracking()
-            .Where(product => product.IsActive)
+            .Where(product => product.IsActive && product.Category.IsActive)
             .AsQueryable();
 
         if (!string.IsNullOrWhiteSpace(search))
@@ -86,7 +86,7 @@ public sealed class ProductService : IProductService
 
         var product = await _dbContext
             .Products.AsNoTracking()
-            .Where(product => product.Id == id)
+            .Where(product => product.Id == id && product.IsActive && product.Category.IsActive)
             .Select(ProductMappings.ToResponse())
             .FirstOrDefaultAsync(cancellationToken);
 

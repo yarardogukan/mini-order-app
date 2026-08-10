@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { API_BASE_URL } from "../../api/api";
+import { getCategories } from "../../api/categoryApi";
+import type { Category } from "../../types/category";
 import type { Product } from "../../types/product";
 
 function ProductListPage() {
@@ -8,6 +10,24 @@ function ProductListPage() {
   const [error, setError] = useState<string | null>(null);
   const [search, setSearch] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState("");
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(
+    null
+  );
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const data = await getCategories();
+
+        setCategories(data);
+      } catch {
+        setError("Categories could not be loaded.");
+      }
+    };
+
+    fetchCategories();
+  }, []);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -23,10 +43,20 @@ function ProductListPage() {
         setLoading(true);
         setError(null);
 
-        const url = debouncedSearch.trim()
-          ? `${API_BASE_URL}/products?search=${encodeURIComponent(
-              debouncedSearch.trim()
-            )}`
+        const params = new URLSearchParams();
+
+        if (debouncedSearch.trim()) {
+          params.set("search", debouncedSearch.trim());
+        }
+
+        if (selectedCategoryId !== null) {
+          params.set("categoryId", selectedCategoryId.toString());
+        }
+
+        const queryString = params.toString();
+
+        const url = queryString
+          ? `${API_BASE_URL}/products?${queryString}`
           : `${API_BASE_URL}/products`;
 
         const response = await fetch(url);
@@ -46,7 +76,7 @@ function ProductListPage() {
     };
 
     fetchProducts();
-  }, [debouncedSearch]);
+  }, [debouncedSearch, selectedCategoryId]);
 
   return (
     <main className="page">
@@ -59,6 +89,27 @@ function ProductListPage() {
           Browse available products and current stock levels.
         </p>
       </header>
+
+      <div className="category-filter">
+        <button
+          type="button"
+          className={selectedCategoryId === null ? "active" : ""}
+          onClick={() => setSelectedCategoryId(null)}
+        >
+          All
+        </button>
+
+        {categories.map((category) => (
+          <button
+            key={category.id}
+            type="button"
+            className={selectedCategoryId === category.id ? "active" : ""}
+            onClick={() => setSelectedCategoryId(category.id)}
+          >
+            {category.name}
+          </button>
+        ))}
+      </div>
 
       <div className="product-toolbar">
         <div className="search-wrapper">
@@ -82,9 +133,7 @@ function ProductListPage() {
         <div className="status-message">No products found!</div>
       )}
 
-      {products.length === 0 ? (
-        <div className="status-message">No products found!</div>
-      ) : (
+      {!loading && !error && products.length > 0 && (
         <div className="product-grid">
           {products.map((product) => (
             <article key={product.id} className="product-card">
@@ -92,7 +141,13 @@ function ProductListPage() {
                 <div>
                   <span className="stock-code">{product.stockCode}</span>
 
+                  <span className="product-category">
+                    {product.categoryName}
+                  </span>
+
                   <h2>{product.name}</h2>
+
+                  <p className="product-description">{product.description}</p>
                 </div>
 
                 <span
