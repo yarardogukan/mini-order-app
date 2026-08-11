@@ -5,10 +5,11 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./styles/global.css";
 
 import App from "./App";
-import ProductListPage from "./pages/products/ProductListPage";
 import CreateOrderPage from "./pages/orders/CreateOrderPage";
-import OrderListPage from "./pages/orders/OrderListPage";
 import OrderDetailPage from "./pages/orders/OrderDetailPage";
+import OrderListPage from "./pages/orders/OrderListPage";
+import ProductDetailPage from "./pages/products/ProductDetailPage";
+import ProductListPage from "./pages/products/ProductListPage";
 import WelcomePage from "./pages/WelcomePage";
 
 const router = createBrowserRouter([
@@ -22,6 +23,10 @@ const router = createBrowserRouter([
       {
         path: "products",
         element: <ProductListPage />,
+      },
+      {
+        path: "products/:id",
+        element: <ProductDetailPage />,
       },
       {
         path: "orders/create",

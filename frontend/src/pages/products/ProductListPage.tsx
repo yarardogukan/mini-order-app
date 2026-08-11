@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { API_BASE_URL } from "../../api/api";
 import { getCategories } from "../../api/categoryApi";
+import { getProducts } from "../../api/productApi";
 import type { Category } from "../../types/category";
 import type { Product } from "../../types/product";
 
@@ -43,29 +43,10 @@ function ProductListPage() {
         setLoading(true);
         setError(null);
 
-        const params = new URLSearchParams();
-
-        if (debouncedSearch.trim()) {
-          params.set("search", debouncedSearch.trim());
-        }
-
-        if (selectedCategoryId !== null) {
-          params.set("categoryId", selectedCategoryId.toString());
-        }
-
-        const queryString = params.toString();
-
-        const url = queryString
-          ? `${API_BASE_URL}/products?${queryString}`
-          : `${API_BASE_URL}/products`;
-
-        const response = await fetch(url);
-
-        if (!response.ok) {
-          throw new Error("Products could not be loaded.");
-        }
-
-        const data: Product[] = await response.json();
+        const data = await getProducts({
+          search: debouncedSearch,
+          categoryId: selectedCategoryId,
+        });
 
         setProducts(data);
       } catch {
@@ -137,13 +118,24 @@ function ProductListPage() {
         <div className="product-grid">
           {products.map((product) => (
             <article key={product.id} className="product-card">
+              <div className="product-card-image">
+                {product.coverImageUrl ? (
+                  <img src={product.coverImageUrl} alt={product.name} />
+                ) : (
+                  <div className="product-card-image-placeholder">No image</div>
+                )}
+              </div>
               <div className="product-card-header">
                 <div>
                   <span className="stock-code">{product.stockCode}</span>
 
-                  <span className="product-category">
-                    {product.categoryName}
-                  </span>
+                  <div className="product-card-meta">
+                    <span className="product-brand">{product.brandName}</span>
+
+                    <span className="product-category">
+                      {product.categoryName}
+                    </span>
+                  </div>
 
                   <h2>{product.name}</h2>
 
