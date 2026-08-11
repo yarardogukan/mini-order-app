@@ -1,28 +1,28 @@
 using MiniOrder.Application.Common.Results;
-using MiniOrder.Application.DTOs.Categories.Requests;
-using MiniOrder.Application.DTOs.Categories.Responses;
+using MiniOrder.Application.DTOs.Brands.Requests;
+using MiniOrder.Application.DTOs.Brands.Responses;
 
 namespace MiniOrder.Application.Interfaces;
 
-public interface ICategoryService
+public interface IBrandService
 {
-    Task<Result<IReadOnlyCollection<CategoryResponse>>> GetAllAsync(
+    Task<Result<IReadOnlyCollection<BrandResponse>>> GetAllAsync(
         CancellationToken cancellationToken = default
     );
 
-    Task<Result<CategoryDetailResponse>> GetByIdAsync(
+    Task<Result<BrandDetailResponse>> GetByIdAsync(
         int id,
         CancellationToken cancellationToken = default
     );
 
-    Task<Result<CategoryDetailResponse>> CreateAsync(
-        CreateCategoryRequest request,
+    Task<Result<BrandDetailResponse>> CreateAsync(
+        CreateBrandRequest request,
         CancellationToken cancellationToken = default
     );
 
-    Task<Result<CategoryDetailResponse>> UpdateAsync(
+    Task<Result<BrandDetailResponse>> UpdateAsync(
         int id,
-        UpdateCategoryRequest request,
+        UpdateBrandRequest request,
         CancellationToken cancellationToken = default
     );
 

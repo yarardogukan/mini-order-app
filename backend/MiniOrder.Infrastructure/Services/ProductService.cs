@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
+using MiniOrder.Application.Common.Errors;
 using MiniOrder.Application.Common.Errors.BusinessErrors;
 using MiniOrder.Application.Common.Results;
 using MiniOrder.Application.DTOs.Products.Responses;
@@ -32,12 +33,18 @@ public sealed class ProductService : IProductService
     public async Task<Result<IReadOnlyCollection<ProductResponse>>> GetAllAsync(
         string? search,
         int? categoryId,
+        int? brandId,
+        decimal? minPrice,
+        decimal? maxPrice,
+        string? sort,
         CancellationToken cancellationToken = default
     )
     {
         var query = _dbContext
             .Products.AsNoTracking()
-            .Where(product => product.IsActive && product.Category.IsActive)
+            .Where(product =>
+                product.IsActive && product.Category.IsActive && product.Brand.IsActive
+            )
             .AsQueryable();
 
         if (!string.IsNullOrWhiteSpace(search))
@@ -52,18 +59,61 @@ public sealed class ProductService : IProductService
 
         if (categoryId.HasValue)
         {
-            query = query.Where(product => product.CategoryId == categoryId.Value);
+            var selectedCategoryId = categoryId.Value;
+
+            query = query.Where(product =>
+                product.CategoryId == selectedCategoryId
+                || product.Category.ParentCategoryId == selectedCategoryId
+            );
         }
 
+        if (brandId.HasValue)
+        {
+            query = query.Where(product => product.BrandId == brandId.Value);
+        }
+
+        if (minPrice.HasValue && maxPrice.HasValue && minPrice.Value > maxPrice.Value)
+        {
+            return Result<IReadOnlyCollection<ProductResponse>>.Failure(
+                new Error(
+                    "Product.InvalidPriceRange",
+                    "Minimum price cannot be greater than maximum price."
+                )
+            );
+        }
+
+        if (minPrice.HasValue)
+        {
+            query = query.Where(product => (double)product.Price >= (double)minPrice.Value);
+        }
+
+        if (maxPrice.HasValue)
+        {
+            query = query.Where(product => (double)product.Price <= (double)maxPrice.Value);
+        }
+
+        query = sort switch
+        {
+            "nameDesc" => query.OrderByDescending(product => product.Name),
+            "priceAsc" => query.OrderBy(product => (double)product.Price),
+            "priceDesc" => query.OrderByDescending(product => (double)product.Price),
+            "stockDesc" => query.OrderByDescending(product => product.StockQuantity),
+
+            _ => query.OrderBy(product => product.Name),
+        };
+
         var products = await query
-            .OrderBy(product => product.Name)
             .Select(ProductMappings.ToResponse())
             .ToListAsync(cancellationToken);
 
         _logger.LogInformation(
-            "Products retrieved. Search: {Search}, CategoryId: {CategoryId}, Count: {Count}",
+            "Products retrieved. Search: {Search}, CategoryId: {CategoryId}, BrandId: {BrandId}, MinPrice: {MinPrice}, MaxPrice: {MaxPrice}, Sort: {Sort}, Count: {Count}",
             search,
             categoryId,
+            brandId,
+            minPrice,
+            maxPrice,
+            sort,
             products.Count
         );
 

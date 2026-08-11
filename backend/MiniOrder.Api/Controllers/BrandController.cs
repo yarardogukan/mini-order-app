@@ -1,24 +1,24 @@
 using Microsoft.AspNetCore.Mvc;
-using MiniOrder.Application.DTOs.Categories.Requests;
+using MiniOrder.Application.DTOs.Brands.Requests;
 using MiniOrder.Application.Interfaces;
 
 namespace MiniOrder.Api.Controllers;
 
 [ApiController]
-[Route("api/categories")]
-public sealed class CategoryController : ControllerBase
+[Route("api/brands")]
+public sealed class BrandController : ControllerBase
 {
-    private readonly ICategoryService _categoryService;
+    private readonly IBrandService _brandService;
 
-    public CategoryController(ICategoryService categoryService)
+    public BrandController(IBrandService brandService)
     {
-        _categoryService = categoryService;
+        _brandService = brandService;
     }
 
     [HttpGet]
     public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
     {
-        var result = await _categoryService.GetAllAsync(cancellationToken);
+        var result = await _brandService.GetAllAsync(cancellationToken);
 
         if (result.IsFailure)
         {
@@ -31,7 +31,7 @@ public sealed class CategoryController : ControllerBase
     [HttpGet("{id:int}")]
     public async Task<IActionResult> GetById(int id, CancellationToken cancellationToken)
     {
-        var result = await _categoryService.GetByIdAsync(id, cancellationToken);
+        var result = await _brandService.GetByIdAsync(id, cancellationToken);
 
         if (result.IsFailure)
         {
@@ -43,11 +43,11 @@ public sealed class CategoryController : ControllerBase
 
     [HttpPost]
     public async Task<IActionResult> Create(
-        [FromBody] CreateCategoryRequest request,
+        [FromBody] CreateBrandRequest request,
         CancellationToken cancellationToken
     )
     {
-        var result = await _categoryService.CreateAsync(request, cancellationToken);
+        var result = await _brandService.CreateAsync(request, cancellationToken);
 
         if (result.IsFailure)
         {
@@ -60,11 +60,11 @@ public sealed class CategoryController : ControllerBase
     [HttpPut("{id:int}")]
     public async Task<IActionResult> Update(
         int id,
-        [FromBody] UpdateCategoryRequest request,
+        [FromBody] UpdateBrandRequest request,
         CancellationToken cancellationToken
     )
     {
-        var result = await _categoryService.UpdateAsync(id, request, cancellationToken);
+        var result = await _brandService.UpdateAsync(id, request, cancellationToken);
 
         if (result.IsFailure)
         {
@@ -77,7 +77,7 @@ public sealed class CategoryController : ControllerBase
     [HttpDelete("{id:int}")]
     public async Task<IActionResult> Delete(int id, CancellationToken cancellationToken)
     {
-        var result = await _categoryService.DeleteAsync(id, cancellationToken);
+        var result = await _brandService.DeleteAsync(id, cancellationToken);
 
         if (result.IsFailure)
         {

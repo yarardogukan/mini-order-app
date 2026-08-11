@@ -18,10 +18,22 @@ public sealed class ProductController : ControllerBase
     public async Task<IActionResult> GetAll(
         [FromQuery] string? search,
         [FromQuery] int? categoryId,
+        [FromQuery] string? sort,
+        [FromQuery] int? brandId,
+        [FromQuery] decimal? minPrice,
+        [FromQuery] decimal? maxPrice,
         CancellationToken cancellationToken
     )
     {
-        var result = await _productService.GetAllAsync(search, categoryId, cancellationToken);
+        var result = await _productService.GetAllAsync(
+            search,
+            categoryId,
+            brandId,
+            minPrice,
+            maxPrice,
+            sort,
+            cancellationToken
+        );
 
         if (result.IsFailure)
         {
