@@ -4,6 +4,10 @@ import { API_BASE_URL } from "./api";
 interface GetProductsParams {
   search?: string;
   categoryId?: number | null;
+  brandId?: number | null;
+  minPrice?: number | null;
+  maxPrice?: number | null;
+  sort?: string | null;
 }
 
 export async function getProducts(
@@ -19,6 +23,21 @@ export async function getProducts(
     queryParams.set("categoryId", params.categoryId.toString());
   }
 
+  if (params.brandId != null) {
+    queryParams.set("brandId", params.brandId.toString());
+  }
+
+  if (params.minPrice != null) {
+    queryParams.set("minPrice", params.minPrice.toString());
+  }
+
+  if (params.maxPrice != null) {
+    queryParams.set("maxPrice", params.maxPrice.toString());
+  }
+
+  if (params.sort) {
+    queryParams.set("sort", params.sort);
+  }
   const queryString = queryParams.toString();
 
   const url = queryString
