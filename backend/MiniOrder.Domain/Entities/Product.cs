@@ -28,6 +28,8 @@ public class Product
 
     public ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
 
+    public ICollection<CartItem> CartItems { get; set; } = new List<CartItem>();
+
     public ICollection<ProductAttributeValue> AttributeValues { get; set; } =
         new List<ProductAttributeValue>();
 }

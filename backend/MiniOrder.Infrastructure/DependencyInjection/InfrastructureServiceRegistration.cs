@@ -24,6 +24,7 @@ public static class InfrastructureServiceRegistration
         services.AddScoped<IBrandService, BrandService>();
         services.AddScoped<IProductService, ProductService>();
         services.AddScoped<IOrderService, OrderService>();
+        services.AddScoped<ICartService, CartService>();
 
         return services;
     }

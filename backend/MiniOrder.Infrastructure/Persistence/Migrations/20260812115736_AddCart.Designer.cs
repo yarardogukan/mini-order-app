@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MiniOrder.Infrastructure.Persistence;
 
@@ -10,9 +11,11 @@ using MiniOrder.Infrastructure.Persistence;
 namespace MiniOrder.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(MiniOrderDbContext))]
-    partial class MiniOrderDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260812115736_AddCart")]
+    partial class AddCart
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.19");
