@@ -1,8 +1,8 @@
 import type { ReactNode } from "react";
 import { useEffect, useState } from "react";
-
 import {
   addCartItem,
+  CartApiError,
   clearCart,
   getCart,
   removeCartItem,
@@ -16,7 +16,6 @@ import {
   storeCartId,
 } from "../utils/cartStorage";
 import { CartContext, type CartContextValue } from "./CartContext";
-
 interface CartProviderProps {
   children: ReactNode;
 }
@@ -37,7 +36,6 @@ export function CartProvider({ children }: CartProviderProps) {
 
       try {
         setLoading(true);
-        setError(null);
 
         const data = await getCart(cartId);
 
@@ -56,8 +54,6 @@ export function CartProvider({ children }: CartProviderProps) {
 
   const addItem = async (productId: number, quantity = 1) => {
     try {
-      setError(null);
-
       const storedCartId = getStoredCartId();
 
       const updatedCart = await addCartItem(
@@ -70,8 +66,10 @@ export function CartProvider({ children }: CartProviderProps) {
 
       storeCartId(updatedCart.cartId);
       setCart(updatedCart);
-    } catch {
-      setError("Product could not be added to cart.");
+    } catch (error) {
+      if (error instanceof CartApiError) {
+        throw error;
+      }
 
       throw new Error("Product could not be added to cart.");
     }
@@ -85,15 +83,15 @@ export function CartProvider({ children }: CartProviderProps) {
     }
 
     try {
-      setError(null);
-
       const updatedCart = await updateCartItemQuantity(cartId, productId, {
         quantity,
       });
 
       setCart(updatedCart);
-    } catch {
-      setError("Cart item quantity could not be updated.");
+    } catch (error) {
+      if (error instanceof CartApiError) {
+        throw error;
+      }
 
       throw new Error("Cart item quantity could not be updated.");
     }
@@ -107,13 +105,13 @@ export function CartProvider({ children }: CartProviderProps) {
     }
 
     try {
-      setError(null);
-
       const updatedCart = await removeCartItem(cartId, productId);
 
       setCart(updatedCart);
-    } catch {
-      setError("Cart item could not be removed.");
+    } catch (error) {
+      if (error instanceof CartApiError) {
+        throw error;
+      }
 
       throw new Error("Cart item could not be removed.");
     }
@@ -127,8 +125,6 @@ export function CartProvider({ children }: CartProviderProps) {
     }
 
     try {
-      setError(null);
-
       await clearCart(cartId);
 
       setCart((current) =>
@@ -142,8 +138,10 @@ export function CartProvider({ children }: CartProviderProps) {
             }
           : null
       );
-    } catch {
-      setError("Cart could not be cleared.");
+    } catch (error) {
+      if (error instanceof CartApiError) {
+        throw error;
+      }
 
       throw new Error("Cart could not be cleared.");
     }

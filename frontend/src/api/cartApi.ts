@@ -5,11 +5,48 @@ import type {
 } from "../types/cart";
 import { API_BASE_URL } from "./api";
 
+interface ApiErrorResponse {
+  code?: string;
+  message?: string;
+}
+
+export class CartApiError extends Error {
+  code: string;
+  status: number;
+
+  constructor(code: string, message: string, status: number) {
+    super(message);
+
+    this.name = "CartApiError";
+    this.code = code;
+    this.status = status;
+  }
+}
+
+async function throwCartApiError(
+  response: Response,
+  fallbackMessage: string
+): Promise<never> {
+  let errorBody: ApiErrorResponse | null = null;
+
+  try {
+    errorBody = await response.json();
+  } catch {
+    // Response body may be empty or not JSON.
+  }
+
+  throw new CartApiError(
+    errorBody?.code ?? "Cart.UnknownError",
+    errorBody?.message ?? fallbackMessage,
+    response.status
+  );
+}
+
 export async function getCart(cartId: string): Promise<Cart> {
   const response = await fetch(`${API_BASE_URL}/cart/${cartId}`);
 
   if (!response.ok) {
-    throw new Error("Cart could not be loaded.");
+    return throwCartApiError(response, "Cart could not be loaded.");
   }
 
   return response.json();
@@ -30,7 +67,7 @@ export async function addCartItem(
   });
 
   if (!response.ok) {
-    throw new Error("Product could not be added to cart.");
+    return throwCartApiError(response, "Product could not be added to cart.");
   }
 
   return response.json();
@@ -53,7 +90,10 @@ export async function updateCartItemQuantity(
   );
 
   if (!response.ok) {
-    throw new Error("Cart item quantity could not be updated.");
+    return throwCartApiError(
+      response,
+      "Cart item quantity could not be updated."
+    );
   }
 
   return response.json();
@@ -71,7 +111,7 @@ export async function removeCartItem(
   );
 
   if (!response.ok) {
-    throw new Error("Cart item could not be removed.");
+    return throwCartApiError(response, "Cart item could not be removed.");
   }
 
   return response.json();
@@ -83,6 +123,6 @@ export async function clearCart(cartId: string): Promise<void> {
   });
 
   if (!response.ok) {
-    throw new Error("Cart could not be cleared.");
+    return throwCartApiError(response, "Cart could not be cleared.");
   }
 }

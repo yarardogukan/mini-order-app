@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { CartApiError } from "../../api/cartApi";
 import CartItemDetailModal from "../../components/CartItemDetailModal";
 import { useCart } from "../../hooks/useCart";
 
@@ -22,6 +23,8 @@ function CartPage() {
   const [clearingCart, setClearingCart] = useState(false);
 
   const [failedImageIds, setFailedImageIds] = useState<number[]>([]);
+
+  const [actionError, setActionError] = useState<string | null>(null);
 
   useEffect(() => {
     if (selectedProductId === null) {
@@ -46,6 +49,18 @@ function CartPage() {
       window.removeEventListener("keydown", handleKeyDown);
     };
   }, [selectedProductId]);
+
+  const getActionErrorMessage = (error: unknown, fallbackMessage: string) => {
+    if (error instanceof CartApiError) {
+      return error.message;
+    }
+
+    if (error instanceof Error) {
+      return error.message;
+    }
+
+    return fallbackMessage;
+  };
 
   if (loading) {
     return (
@@ -88,8 +103,13 @@ function CartPage() {
             onClick={async () => {
               try {
                 setClearingCart(true);
+                setActionError(null);
 
                 await clear();
+              } catch (error) {
+                setActionError(
+                  getActionErrorMessage(error, "Cart could not be cleared.")
+                );
               } finally {
                 setClearingCart(false);
               }
@@ -99,6 +119,20 @@ function CartPage() {
           </button>
         )}
       </section>
+
+      {actionError && (
+        <div className="cart-action-error" role="alert">
+          <span>{actionError}</span>
+
+          <button
+            type="button"
+            aria-label="Dismiss error"
+            onClick={() => setActionError(null)}
+          >
+            ×
+          </button>
+        </div>
+      )}
 
       {!cart || cart.items.length === 0 ? (
         <div className="cart-empty-state">
@@ -199,9 +233,18 @@ function CartPage() {
                         try {
                           setUpdatingProductId(item.productId);
 
+                          setActionError(null);
+
                           await updateItemQuantity(
                             item.productId,
                             item.quantity - 1
+                          );
+                        } catch (error) {
+                          setActionError(
+                            getActionErrorMessage(
+                              error,
+                              "Quantity could not be updated."
+                            )
                           );
                         } finally {
                           setUpdatingProductId(null);
@@ -220,9 +263,18 @@ function CartPage() {
                         try {
                           setUpdatingProductId(item.productId);
 
+                          setActionError(null);
+
                           await updateItemQuantity(
                             item.productId,
                             item.quantity + 1
+                          );
+                        } catch (error) {
+                          setActionError(
+                            getActionErrorMessage(
+                              error,
+                              "Quantity could not be updated."
+                            )
                           );
                         } finally {
                           setUpdatingProductId(null);
@@ -240,7 +292,16 @@ function CartPage() {
                         try {
                           setRemovingProductId(item.productId);
 
+                          setActionError(null);
+
                           await removeItem(item.productId);
+                        } catch (error) {
+                          setActionError(
+                            getActionErrorMessage(
+                              error,
+                              "Product could not be removed from cart."
+                            )
+                          );
                         } finally {
                           setRemovingProductId(null);
                         }

@@ -1517,6 +1517,31 @@ a {
   -webkit-line-clamp: 2;
 }
 
+.marketplace-cart-button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.marketplace-cart-button.added {
+  border-color: #b9dfc2;
+  background: #edf8f0;
+  color: #287a3d;
+}
+
+.marketplace-cart-error {
+  margin-bottom: 14px;
+  padding: 10px 12px;
+
+  border: 1px solid #efcaca;
+  border-radius: 9px;
+
+  background: #fff6f6;
+  color: #9b2929;
+
+  font-size: 12px;
+  font-weight: 600;
+}
+
 /* Marketplace - Product Card Footer */
 
 .marketplace-product-footer {

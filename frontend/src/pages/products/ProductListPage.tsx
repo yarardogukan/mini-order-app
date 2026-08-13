@@ -53,6 +53,10 @@ function ProductListPage() {
     );
   };
 
+  const [addingProductId, setAddingProductId] = useState<number | null>(null);
+  const [addedProductId, setAddedProductId] = useState<number | null>(null);
+  const [cartActionError, setCartActionError] = useState<string | null>(null);
+
   useEffect(() => {
     const fetchCategories = async () => {
       try {
@@ -531,6 +535,10 @@ function ProductListPage() {
             </div>
           </section>
 
+          {cartActionError && (
+            <div className="marketplace-cart-error">{cartActionError}</div>
+          )}
+
           {/* =========================
               Product Results
              ========================= */}
@@ -607,15 +615,43 @@ function ProductListPage() {
 
                         <button
                           type="button"
-                          className="marketplace-cart-button"
+                          className={
+                            addedProductId === product.id
+                              ? "marketplace-cart-button added"
+                              : "marketplace-cart-button"
+                          }
                           aria-label={`Add ${product.name} to cart`}
+                          disabled={addingProductId === product.id}
                           onClick={async (event) => {
                             event.stopPropagation();
 
-                            await addItem(product.id, 1);
+                            try {
+                              setAddingProductId(product.id);
+                              setCartActionError(null);
+
+                              await addItem(product.id, 1);
+
+                              setAddedProductId(product.id);
+
+                              window.setTimeout(() => {
+                                setAddedProductId((current) =>
+                                  current === product.id ? null : current
+                                );
+                              }, 1200);
+                            } catch {
+                              setCartActionError(
+                                `${product.name} could not be added to cart.`
+                              );
+                            } finally {
+                              setAddingProductId(null);
+                            }
                           }}
                         >
-                          🛒
+                          {addingProductId === product.id
+                            ? "..."
+                            : addedProductId === product.id
+                            ? "✓"
+                            : "🛒"}
                         </button>
                       </div>
                     </div>
