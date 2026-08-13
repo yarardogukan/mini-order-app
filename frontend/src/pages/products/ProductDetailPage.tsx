@@ -1,11 +1,15 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { getProductById } from "../../api/productApi";
+import { useCart } from "../../hooks/useCart";
 import type { ProductDetail } from "../../types/product";
 
 function ProductDetailPage() {
   const { id } = useParams();
 
+  const { addItem } = useCart();
+  const [addingToCart, setAddingToCart] = useState(false);
+  const [cartMessage, setCartMessage] = useState<string | null>(null);
   const [product, setProduct] = useState<ProductDetail | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -225,11 +229,33 @@ function ProductDetailPage() {
               <button
                 type="button"
                 className="primary-button add-to-cart-button"
-                disabled={product.stockQuantity === 0}
+                disabled={product.stockQuantity === 0 || addingToCart}
+                onClick={async () => {
+                  try {
+                    setAddingToCart(true);
+                    setCartMessage(null);
+
+                    await addItem(product.id, quantity);
+
+                    setCartMessage("Product added to cart.");
+                  } catch {
+                    setCartMessage("Product could not be added to cart.");
+                  } finally {
+                    setAddingToCart(false);
+                  }
+                }}
               >
-                {product.stockQuantity > 0 ? "Add to Cart" : "Out of Stock"}
+                {product.stockQuantity === 0
+                  ? "Out of Stock"
+                  : addingToCart
+                  ? "Adding..."
+                  : "Add to Cart"}
               </button>
             </div>
+
+            {cartMessage && (
+              <div className="product-cart-feedback">{cartMessage}</div>
+            )}
           </div>
         </div>
       </section>

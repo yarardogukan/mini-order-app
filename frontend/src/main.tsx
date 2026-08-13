@@ -1,10 +1,12 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { CartProvider } from "./context/CartProvider";
 
 import "./styles/global.css";
 
 import App from "./App";
+import CartPage from "./pages/cart/CartPage";
 import CreateOrderPage from "./pages/orders/CreateOrderPage";
 import OrderDetailPage from "./pages/orders/OrderDetailPage";
 import OrderListPage from "./pages/orders/OrderListPage";
@@ -40,12 +42,18 @@ const router = createBrowserRouter([
         path: "orders/:id",
         element: <OrderDetailPage />,
       },
+      {
+        path: "cart",
+        element: <CartPage />,
+      },
     ],
   },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <CartProvider>
+      <RouterProvider router={router} />
+    </CartProvider>
   </React.StrictMode>
 );

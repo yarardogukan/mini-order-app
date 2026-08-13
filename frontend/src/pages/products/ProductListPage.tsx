@@ -3,12 +3,14 @@ import { useNavigate } from "react-router-dom";
 import { getBrands } from "../../api/brandApi";
 import { getCategories } from "../../api/categoryApi";
 import { getProducts } from "../../api/productApi";
+import { useCart } from "../../hooks/useCart";
 import type { Brand } from "../../types/brand";
 import type { Category } from "../../types/category";
 import type { Product } from "../../types/product";
 
 function ProductListPage() {
   const navigate = useNavigate();
+  const { addItem } = useCart();
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -607,8 +609,10 @@ function ProductListPage() {
                           type="button"
                           className="marketplace-cart-button"
                           aria-label={`Add ${product.name} to cart`}
-                          onClick={(event) => {
+                          onClick={async (event) => {
                             event.stopPropagation();
+
+                            await addItem(product.id, 1);
                           }}
                         >
                           🛒
