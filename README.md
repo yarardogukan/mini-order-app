@@ -1,12 +1,22 @@
-# Mini Order App
+# MiniOrder
 
-Teknik değerlendirme kapsamında geliştirilen full-stack mini sipariş yönetim uygulamasıdır.
+MiniOrder, **.NET 8** ve **React + TypeScript** kullanılarak geliştirilen minimal bir full-stack e-commerce uygulamasıdır.
 
-Uygulama; ürün görüntüleme ve arama, birden fazla ürün ile sipariş oluşturma, stok yönetimi, sipariş listeleme ve sipariş detaylarını görüntüleme akışlarını içerir.
+Proje başlangıçta teknik değerlendirme kapsamında bir sipariş yönetimi uygulaması olarak geliştirilmiş, sonraki sprintlerde ürün kataloğu, kategori ve marka altyapısı, alışveriş sepeti ve admin yönetim özellikleriyle genişletilmiştir.
 
-## Kullanılan Teknolojiler
+Uygulama; ürün keşfi ve arama, kategori ve marka bazlı katalog yapısı, ürün detayları, alışveriş sepeti, sipariş oluşturma ve görüntüleme ile admin tarafında katalog yönetimi akışlarını içerir.
 
-### Backend
+## Current Release
+
+**v1.1.0 — Admin Foundation & Catalog Management**
+
+Bu sürüm ile MiniOrder'ın temel admin yönetim altyapısı ve kategori/marka yönetimi tamamlanmıştır.
+
+---
+
+# Kullanılan Teknolojiler
+
+## Backend
 
 - .NET 8
 - ASP.NET Core Web API
@@ -17,7 +27,7 @@ Uygulama; ürün görüntüleme ve arama, birden fazla ürün ile sipariş oluş
 - Swagger / OpenAPI
 - xUnit
 
-### Frontend
+## Frontend
 
 - React
 - TypeScript
@@ -26,7 +36,9 @@ Uygulama; ürün görüntüleme ve arama, birden fazla ürün ile sipariş oluş
 - Native Fetch API
 - CSS
 
-## Proje Yapısı
+---
+
+# Proje Yapısı
 
 ```text
 mini-order-app
@@ -42,59 +54,117 @@ mini-order-app
 │   ├── src
 │   └── package.json
 │
-└── README.md
+├── README.md
+└── SECURITY.md
 ```
 
-### Backend Katmanları
+## Backend Katmanları
 
-- `MiniOrder.Domain`
+### `MiniOrder.Domain`
 
-  - Product, Order ve OrderItem entity'lerini içerir.
+Domain entity'lerini ve temel domain modellerini içerir.
 
-- `MiniOrder.Application`
+Başlıca modeller:
 
-  - DTO'lar
-  - Interface'ler
-  - Validation kuralları
-  - Result ve Error modelleri
+- Product
+- Category
+- Brand
+- Order
+- OrderItem
 
-- `MiniOrder.Infrastructure`
+### `MiniOrder.Application`
 
-  - Entity Framework Core
-  - SQLite
-  - Entity configuration'ları
-  - Migration'lar
-  - Service implementasyonları
-  - Mapping
-  - Cache kullanımı
+Application katmanı aşağıdaki sorumlulukları içerir:
 
-- `MiniOrder.Api`
+- DTO'lar
+- Request / Response modelleri
+- Service interface'leri
+- Validation kuralları
+- Result ve Error modelleri
+- Application seviyesindeki business contract'ları
 
-  - REST Controller'ları
-  - Dependency Injection
-  - Swagger
-  - Global Exception Handling
-  - CORS
+### `MiniOrder.Infrastructure`
 
-- `MiniOrder.Tests`
-  - Kritik business kuralları ve validation testleri
+Infrastructure katmanı aşağıdaki teknik implementasyonları içerir:
 
-Case kapsamı nedeniyle CQRS, MediatR, Generic Repository veya global state management gibi ek abstraction'lar kullanılmamıştır.
+- Entity Framework Core
+- SQLite
+- Entity configuration'ları
+- Migration'lar
+- Service implementasyonları
+- Mapping
+- Cache kullanımı
+- Persistence işlemleri
 
-Amaç, gereksiz mimari karmaşıklık oluşturmadan okunabilir ve sorumlulukları ayrılmış bir çözüm oluşturmaktır.
+### `MiniOrder.Api`
+
+API katmanı aşağıdaki sorumlulukları içerir:
+
+- REST Controller'ları
+- Dependency Injection
+- Swagger / OpenAPI
+- Global Exception Handling
+- CORS
+- HTTP request / response yönetimi
+
+### `MiniOrder.Tests`
+
+Kritik business kuralları ve validation davranışlarını doğrulayan backend testlerini içerir.
+
+---
+
+# Mimari Yaklaşım
+
+Proje, gereksiz mimari karmaşıklık oluşturmadan sorumlulukların ayrıldığı sade bir katmanlı mimari ile geliştirilmiştir.
+
+Backend tarafında temel akış:
+
+```text
+API
+ ↓
+Application
+ ↓
+Infrastructure
+ ↓
+Database
+```
+
+Case ve projenin mevcut kapsamı nedeniyle aşağıdaki abstraction'lar bilinçli olarak kullanılmamıştır:
+
+- CQRS
+- MediatR
+- Generic Repository
+- Distributed Cache
+- Gereksiz domain abstraction'ları
+
+Frontend tarafında da ihtiyaç oluşmadan global state management veya ağır UI framework'leri eklenmemiştir.
+
+Amaç, küçük ve orta ölçekli bir e-commerce uygulaması için okunabilir, geliştirilebilir ve sorumlulukları net bir temel oluşturmaktır.
 
 ---
 
 # Uygulama Özellikleri
 
-## Ürünler
+## Ürün Kataloğu
 
 - Ürünleri listeleme
 - Ürün detayını görüntüleme
 - Ürün ismine göre arama
 - Stok koduna göre arama
+- Kategori bazlı katalog yapısı
+- Marka bazlı katalog yapısı
 - Fiyat görüntüleme
 - Mevcut stok miktarını görüntüleme
+- Responsive ürün görünümü
+
+## Alışveriş Sepeti
+
+- Sepete ürün ekleme
+- Sepette ürün miktarını artırma
+- Sepette ürün miktarını azaltma
+- Sepetten ürün kaldırma
+- Sepet toplamını hesaplama
+- Sipariş oluşturma akışına geçiş
 
 ## Siparişler
 
@@ -108,7 +178,114 @@ Amaç, gereksiz mimari karmaşıklık oluşturmadan okunabilir ve sorumluluklar�
 
 ---
 
+# Admin Panel
+
+MiniOrder, storefront tarafına ek olarak katalog verilerinin yönetilebildiği ayrı bir admin alanına sahiptir.
+
+## Admin Foundation
+
+- Admin login ekranı
+- Demo admin authentication
+- Protected admin routes
+- Session tabanlı admin erişimi
+- Admin dashboard
+- Responsive admin layout
+- Desktop sidebar
+- Mobile admin navigation
+- Active navigation state
+- Logout
+- Store ↔ Admin navigation
+
+> **Security Note:** Mevcut admin authentication yapısı portfolio/demo amacıyla hazırlanmıştır ve production-ready authentication olarak değerlendirilmemelidir.
+
+## Admin Dashboard
+
+Dashboard üzerinde katalog durumunu hızlı şekilde takip etmek için temel özet bilgiler bulunmaktadır:
+
+- Total Products
+- Total Categories
+- Total Brands
+- Active Products
+- Quick Actions
+- Category Management bağlantısı
+- Brand Management bağlantısı
+- Future Product Management CTA
+- Orders placeholder
+
+Dashboard bilinçli olarak hafif tutulmuş ve mevcut kapsam için gereksiz chart/analytics bileşenleri eklenmemiştir.
+
+---
+
+# Category Management
+
+Admin panel üzerinden kategori ve alt kategori yönetimi yapılabilir.
+
+Desteklenen işlemler:
+
+- Kategorileri listeleme
+- Root category oluşturma
+- Subcategory oluşturma
+- Kategori detayını görüntüleme
+- Kategori güncelleme
+- Parent category yönetimi
+- Active / inactive durum yönetimi
+- Kategori silme
+- Delete confirmation
+- Kategori adını yazarak destructive action doğrulaması
+- Backend business error handling
+- Loading state
+- Empty state
+- Error state
+- Success feedback
+
+Kategori yapısı parent/subcategory ilişkisini desteklemektedir.
+
+---
+
+# Brand Management
+
+Admin panel üzerinden ürün markaları yönetilebilir.
+
+Desteklenen işlemler:
+
+- Markaları listeleme
+- Marka detayını görüntüleme
+- Marka oluşturma
+- Marka güncelleme
+- Active / inactive durum yönetimi
+- Marka silme
+- Delete confirmation
+- Marka adını yazarak destructive action doğrulaması
+- Backend business error handling
+- Loading state
+- Empty state
+- Error state
+- Success feedback
+
+---
+
+# Shared Admin UX
+
+Admin panel içerisinde ortak bir kullanıcı deneyimi oluşturmak amacıyla aşağıdaki UI pattern'leri kullanılmaktadır:
+
+- Tables
+- Status badges
+- Page headers
+- Forms
+- Modals
+- Confirmation dialogs
+- Alerts
+- Loading buttons
+- Empty states
+- Error states
+
+Admin ekranları desktop, tablet ve mobile kullanım için responsive olarak tasarlanmıştır.
+
+---
+
 # Business Kuralları
+
+## Sipariş Oluşturma
 
 Yeni bir sipariş oluşturulurken:
 
@@ -133,12 +310,14 @@ Herhangi bir üründe yeterli stok bulunmadığında:
 
 # Database
 
-İlişkisel veritabanı olarak SQLite kullanılmıştır.
+İlişkisel veritabanı olarak **SQLite** kullanılmaktadır.
 
-Temel entity'ler:
+Temel domain modelleri:
 
 ```text
 Product
+Category
+Brand
 Order
 OrderItem
 ```
@@ -153,7 +332,9 @@ bilgilerini saklar.
 
 Bu sayede ürün fiyatı daha sonra değişse bile geçmiş sipariş kayıtları etkilenmez.
 
-Uygulama ilk çalıştırıldığında örnek ürünler otomatik olarak eklenir.
+Ürün kataloğu tarafında Category ve Brand yapıları ürünlerin sınıflandırılması ve yönetilebilir katalog yapısının oluşturulması için kullanılmaktadır.
+
+Uygulama ilk çalıştırıldığında geliştirme/demo amacıyla örnek veriler eklenebilir.
 
 ---
 
@@ -180,6 +361,8 @@ Commit
 ```
 
 İşlem sırasında beklenmeyen bir hata oluşursa transaction rollback edilir.
+
+Bu yaklaşım sipariş ve stok verilerinin tutarlı kalmasını sağlar.
 
 ---
 
@@ -216,9 +399,9 @@ Arama sonuçları bilinçli olarak cache'lenmemiştir. Bu sayede farklı arama p
 
 # Validation
 
-Request validation işlemleri FluentValidation ile yapılmaktadır.
+Request validation işlemleri backend tarafında **FluentValidation** ile yapılmaktadır.
 
-Kontroller:
+Sipariş tarafındaki temel kontroller:
 
 - Customer name zorunluluğu
 - Customer name maksimum uzunluğu
@@ -227,7 +410,9 @@ Kontroller:
 - ProductId değerinin pozitif olması
 - Quantity değerinin pozitif olması
 
-Frontend tarafında kullanıcı deneyimi için temel validation uygulanır.
+Admin katalog işlemlerinde ayrıca backend business kuralları uygulanmaktadır.
+
+Frontend tarafında kullanıcı deneyimini iyileştirmek için temel form validation uygulanır.
 
 Asıl business rule doğrulamaları backend tarafından gerçekleştirilir.
 
@@ -254,9 +439,17 @@ yapısı üzerinden yönetilir.
 }
 ```
 
+Admin Category ve Brand işlemlerindeki business hataları da API üzerinden frontend'e taşınarak kullanıcıya anlamlı mesajlar halinde gösterilir.
+
 Beklenmeyen sistem hataları merkezi `GlobalExceptionHandler` tarafından yakalanır.
 
-Bu hatalarda ASP.NET Core `ProblemDetails` kullanılarak `500 Internal Server Error` response'u oluşturulur.
+Bu hatalarda ASP.NET Core `ProblemDetails` kullanılarak:
+
+```text
+500 Internal Server Error
+```
+
+response'u oluşturulur.
 
 Teknik exception detayları ve stack trace kullanıcıya açılmaz; log içerisinde tutulur.
 
@@ -270,6 +463,26 @@ Teknik exception detayları ve stack trace kullanıcıya açılmaz; log içerisi
 GET /api/products
 GET /api/products?search={searchTerm}
 GET /api/products/{id}
+```
+
+## Categories
+
+```http
+GET /api/categories
+GET /api/categories/{id}
+POST /api/categories
+PUT /api/categories/{id}
+DELETE /api/categories/{id}
+```
+
+## Brands
+
+```http
+GET /api/brands
+GET /api/brands/{id}
+POST /api/brands
+PUT /api/brands/{id}
+DELETE /api/brands/{id}
 ```
 
 ## Orders
@@ -298,7 +511,7 @@ GET /api/orders/{id}
 }
 ```
 
-Başarılı sipariş oluşturma isteği:
+Başarılı resource oluşturma:
 
 ```text
 201 Created
@@ -320,16 +533,23 @@ Bulunamayan kaynak:
 
 # Frontend
 
-Uygulama açıldığında teknik değerlendirme için hazırlanmış bir karşılama ekranı gösterilir.
+Frontend React + TypeScript ile geliştirilmiştir.
 
-Ana ekranlar:
+Ana storefront ve admin route'ları:
 
 ```text
 /
 └── Welcome
 
 /products
-└── Product List + Search
+├── Product List
+└── Search / Catalog
+
+/products/:id
+└── Product Detail
+
+/cart
+└── Shopping Cart
 
 /orders/create
 └── Create Order
@@ -339,6 +559,18 @@ Ana ekranlar:
 
 /orders/:id
 └── Order Detail
+
+/admin/login
+└── Admin Login
+
+/admin
+└── Admin Dashboard
+
+/admin/categories
+└── Category Management
+
+/admin/brands
+└── Brand Management
 ```
 
 Ürün aramasında gereksiz API çağrılarını azaltmak için `400 ms` debounce uygulanmıştır.
@@ -349,18 +581,69 @@ Frontend içerisinde:
 - Empty state
 - API error state
 - Form validation
-- Success / error alert
-- Responsive temel görünüm
+- Success / error feedback
+- Confirmation dialogs
+- Responsive storefront
+- Responsive admin panel
+- Protected admin navigation
 
 bulunmaktadır.
 
-Global state management kütüphanesine ihtiyaç duyulmadığı için Redux veya benzeri bir yapı kullanılmamıştır.
+Global state management kütüphanesine mevcut kapsamda ihtiyaç duyulmadığı için Redux veya benzeri ek bir yapı kullanılmamıştır.
+
+---
+
+# Admin Authentication
+
+Admin alanı storefront'tan ayrı bir giriş akışına sahiptir.
+
+Mevcut authentication çözümü:
+
+- Demo login
+- Session tabanlı admin state
+- Protected routes
+- Route guard
+- Logout
+- Admin → Store navigation
+- Store → Admin navigation
+
+Bu authentication mekanizması yalnızca geliştirme, portfolio ve demo amaçlıdır.
+
+Production ortamında kullanılacak authentication sistemi için aşağıdaki konular ayrıca ele alınmalıdır:
+
+- Server-side authentication
+- Secure credential storage
+- Password hashing
+- Authorization
+- Secure session/token management
+- Refresh/revocation strategy
+- Rate limiting
+- Audit logging
+- CSRF/XSS güvenlik kontrolleri
+
+---
+
+# Responsive Design
+
+Storefront ve admin panel responsive olarak geliştirilmiştir.
+
+Admin tarafında:
+
+- Desktop sidebar
+- Tablet layout
+- Mobile admin navigation
+- Responsive tables
+- Responsive forms
+- Responsive modals
+- Responsive dashboard cards
+
+desteklenmektedir.
 
 ---
 
 # Testler
 
-Backend testleri xUnit ile hazırlanmıştır.
+Backend testleri **xUnit** ile hazırlanmıştır.
 
 Mevcut testler kritik business davranışlarını doğrulamaktadır:
 
@@ -377,6 +660,19 @@ Testleri çalıştırmak için:
 cd backend
 dotnet test MiniOrder.Tests/MiniOrder.Tests.csproj
 ```
+
+Admin tarafında geliştirme sürecinde manuel smoke testler uygulanmıştır:
+
+- Admin login
+- Logout
+- Route guard
+- Category CRUD
+- Subcategory CRUD
+- Category business errors
+- Brand CRUD
+- Store ↔ Admin navigation
+- Responsive davranış
+- Frontend production build
 
 ---
 
@@ -408,8 +704,6 @@ API'yi çalıştırın:
 dotnet run --project MiniOrder.Api
 ```
 
-API local ortamda çalışmaktadır.
-
 Swagger Development ortamında kullanılabilir.
 
 ## Frontend
@@ -432,7 +726,7 @@ React uygulamasını başlatın:
 npm run dev
 ```
 
-Frontend:
+Frontend varsayılan Vite development ortamında:
 
 ```text
 http://localhost:5173
@@ -442,144 +736,110 @@ http://localhost:5173
 
 Backend'in de aynı anda çalışıyor olması gerekir.
 
----
-
-# Teknik Değerlendirme Soruları
-
-## 1. Uygulama nasıl çalıştırılır?
-
-Backend:
+Production frontend build kontrolü için:
 
 ```bash
-cd backend
-dotnet restore
-dotnet run --project MiniOrder.Api
+npm run build
 ```
-
-Frontend:
-
-```bash
-cd frontend
-npm install
-npm run dev
-```
-
-Frontend `http://localhost:5173` üzerinden kullanılabilir.
 
 ---
 
-## 2. Problemi hangi parçalara ayırdınız?
+# Development Roadmap
 
-Çalışmayı temel olarak:
+MiniOrder iteratif sprint yaklaşımıyla geliştirilmektedir.
 
-- Domain ve database modeli
-- Application sözleşmeleri ve validation
-- Persistence ve business service'leri
-- REST API
+## Completed
+
+### Initial Foundation
+
+- Backend layered architecture
+- SQLite persistence
+- Product listing
+- Product detail
+- Product search
+- Order creation
+- Order listing
+- Order detail
+- Transaction management
 - Cache
-- Testler
+- Validation
+- Backend tests
 - React frontend
-- Backend / frontend entegrasyonu
 
-şeklinde parçalara ayırdım.
+### Storefront Foundation
 
----
+- Product catalog experience
+- Product detail experience
+- Shopping cart
+- Responsive storefront
 
-## 3. Database modelini neden bu şekilde oluşturdunuz?
+### Admin Foundation & Catalog Management — v1.1.0
 
-`Product`, ürünün güncel fiyat ve stok bilgisini temsil eder.
+- Admin login
+- Protected admin routes
+- Admin dashboard
+- Responsive admin shell
+- Category Management
+- Subcategory Management
+- Brand Management
+- Admin CRUD feedback states
+- Confirmation dialogs
+- Store ↔ Admin navigation
 
-`Order`, siparişin üst bilgisini tutar.
+## Next Milestone
 
-`OrderItem`, sipariş ile ürün arasındaki ilişkiyi ve sipariş anındaki miktar/fiyat bilgisini saklar.
+### Admin Product Management
 
-Fiyat bilgisinin `OrderItem` içerisinde ayrıca tutulmasının nedeni, ürün fiyatı gelecekte değişse bile geçmiş siparişlerin değişmemesidir.
+Planlanan sonraki geliştirme alanları:
 
----
-
-## 4. Kod organizasyonunu neden bu şekilde tercih ettiniz?
-
-Business logic'in controller içerisine yığılmaması ve sorumlulukların açık şekilde ayrılması için Domain, Application, Infrastructure ve API katmanlarına ayrılmış sade bir yapı kullandım.
-
-Case kapsamında ihtiyaç olmadığı için CQRS, MediatR veya Generic Repository gibi ek abstraction'lar kullanmadım.
-
-Frontend tarafında da ihtiyaç doğmadan gereksiz component veya state management katmanları oluşturmadım.
-
----
-
-## 5. Sipariş ve stok işlemlerinde veri bütünlüğünü nasıl sağladınız?
-
-Sipariş kaydı ve ürün stoklarının azaltılması aynı EF Core transaction içerisinde gerçekleştirilir.
-
-Tüm kontroller başarılı olduktan sonra değişiklikler kaydedilir ve transaction commit edilir.
-
-Herhangi bir hata oluşması durumunda rollback uygulanır.
-
----
-
-## 6. Cache'i nerede ve neden kullandınız?
-
-Ürün detay endpoint'inde `IMemoryCache` kullandım.
-
-Sık okunabilecek ancak her istekte database sorgusu gerektirmeyen ürün detaylarının kısa süreli olarak memory üzerinden dönmesini amaçladım.
+- Product admin navigation
+- Product management table
+- Product create
+- Product edit
+- Product delete/deactivate
+- Category assignment
+- Brand assignment
+- Price management
+- Stock management
+- Product status management
+- Storefront ↔ Admin product integration
+- Dashboard product integration
 
 ---
 
-## 7. Stok değiştiğinde cache'i nasıl yönettiniz?
+# Release History
 
-Sipariş transaction'ı başarıyla commit edildikten sonra sipariş içerisindeki ürünlerin:
+## v1.1.0 — Admin Foundation & Catalog Management
+
+MiniOrder'ın ilk kapsamlı admin yönetim sürümü.
+
+Öne çıkan geliştirmeler:
+
+- Admin dashboard
+- Demo admin authentication
+- Protected admin routes
+- Responsive admin navigation
+- Category CRUD
+- Subcategory CRUD
+- Brand CRUD
+- Catalog business error handling
+- Destructive action confirmation
+- Shared admin UX patterns
+- Responsive admin experience
+
+---
+
+# Security
+
+Güvenlik açıklarının public GitHub issue üzerinden paylaşılmaması önerilir.
+
+Güvenlik politikası ve vulnerability reporting süreci için repository içerisindeki:
 
 ```text
-product:{id}
+SECURITY.md
 ```
 
-cache key'leri silinir.
-
-Bir sonraki ürün detay isteğinde güncel stok database üzerinden okunarak tekrar cache'e yazılır.
-
----
-
-## 8. Süre nedeniyle tamamlamadığınız veya sadeleştirdiğiniz noktalar nelerdir?
-
-Case'in çalışan ve anlaşılır çözüm beklentisine bağlı kalmak için:
-
-- Authentication eklenmedi.
-- Product CRUD geliştirilmedi.
-- Redux gibi global state management kullanılmadı.
-- Distributed cache kullanılmadı.
-- CQRS / MediatR gibi ek mimari katmanlar eklenmedi.
-- Docker zorunlu olmadığı için eklenmedi.
-
-Bu noktaların büyük kısmı case kapsamında zaten zorunlu değildir ve çözümü gereksiz şekilde karmaşıklaştırmamak adına bilinçli olarak sade tutulmuştur.
-
----
-
-## 9. Hangi AI araçlarını kullandınız?
-
-Geliştirme sürecinde OpenAI ChatGPT'den teknik değerlendirme, alternatif yaklaşım analizi, debugging ve kod review desteği aldım.
-
----
-
-## 10. AI tarafından üretilen kodları nasıl kontrol ettiniz?
-
-AI önerilerini doğrudan kabul etmek yerine:
-
-- Kodun mevcut mimariyle uyumunu kontrol ettim.
-- Her geliştirmeden sonra build aldım.
-- API endpointlerini Swagger ve Postman üzerinden manuel test ettim.
-- Kritik business kuralları için otomatik testler yazdım.
-- Cache ve transaction davranışlarını log ve database sonuçları üzerinden doğruladım.
-- Gereksiz abstraction veya case kapsamını aşan önerileri uygulamadım.
-
-Teslim edilen kodun tamamını anlayabilecek ve teknik kararlarını açıklayabilecek şekilde ilerledim.
-
----
-
-## 11. Çalışmaya yaklaşık ne kadar zaman ayırdınız?
-
-Aktif geliştirme süresi yaklaşık **20 saat** olmuştur.
-
-Çalışma case için verilen 48 saatlik teslim süresi göz önünde bulundurularak planlanmıştır.
+dosyasına bakabilirsiniz.
 
 ---
 
@@ -594,3 +854,9 @@ Repository:
 ```text
 https://github.com/yarardogukan/mini-order-app
 ```
+
+---
+
+# License & Usage
+
+MiniOrder eğitim, teknik değerlendirme ve portfolio geliştirme amacıyla oluşturulmuştur.

@@ -6,8 +6,17 @@ MiniOrder is currently under active development.
 
 | Version | Supported |
 | ------- | --------- |
-| Latest  | ✅ |
-| Older versions | ❌ |
+| 1.1.x   | ✅        |
+| 1.0.x   | ❌        |
+| < 1.0   | ❌        |
+
+## Demo Authentication Notice
+
+The current admin authentication flow is intended for demonstration and portfolio purposes only.
+
+The demo credentials and session-based authentication mechanism must not be considered production-ready authentication.
+
+Future production authentication should include secure server-side authentication, authorization, credential management, and appropriate session/token security controls.
 
 ## Reporting a Vulnerability
 
