@@ -6,6 +6,12 @@ import { CartProvider } from "./context/CartProvider";
 import "./styles/global.css";
 
 import App from "./App";
+import AdminRoute from "./components/admin/AdminRoute";
+import AdminLayout from "./layouts/AdminLayout";
+import AdminDashboardPage from "./pages/admin/AdminDashboardPage";
+import AdminLoginPage from "./pages/admin/AdminLoginPage";
+import AdminBrandsPage from "./pages/admin/brands/AdminBrandsPage";
+import AdminCategoriesPage from "./pages/admin/categories/AdminCategoriesPage";
 import CartPage from "./pages/cart/CartPage";
 import CreateOrderPage from "./pages/orders/CreateOrderPage";
 import OrderDetailPage from "./pages/orders/OrderDetailPage";
@@ -19,6 +25,35 @@ const router = createBrowserRouter([
     path: "/",
     element: <WelcomePage />,
   },
+
+  {
+    path: "/admin/login",
+    element: <AdminLoginPage />,
+  },
+
+  {
+    element: <AdminRoute />,
+    children: [
+      {
+        element: <AdminLayout />,
+        children: [
+          {
+            path: "/admin",
+            element: <AdminDashboardPage />,
+          },
+          {
+            path: "/admin/categories",
+            element: <AdminCategoriesPage />,
+          },
+          {
+            path: "/admin/brands",
+            element: <AdminBrandsPage />,
+          },
+        ],
+      },
+    ],
+  },
+
   {
     element: <App />,
     children: [
@@ -31,6 +66,10 @@ const router = createBrowserRouter([
         element: <ProductDetailPage />,
       },
       {
+        path: "cart",
+        element: <CartPage />,
+      },
+      {
         path: "orders/create",
         element: <CreateOrderPage />,
       },
@@ -41,10 +80,6 @@ const router = createBrowserRouter([
       {
         path: "orders/:id",
         element: <OrderDetailPage />,
-      },
-      {
-        path: "cart",
-        element: <CartPage />,
       },
     ],
   },
